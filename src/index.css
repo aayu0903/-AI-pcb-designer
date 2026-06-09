@@ -1,0 +1,398 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Colors */
+  --bg-main: #0b0f19;
+  --bg-card: rgba(22, 28, 45, 0.65);
+  --bg-card-hover: rgba(30, 41, 59, 0.85);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(59, 130, 246, 0.3);
+  
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-glow: rgba(59, 130, 246, 0.5);
+  
+  --success: #10b981;
+  --success-glow: rgba(16, 185, 129, 0.4);
+  
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --danger-glow: rgba(239, 68, 68, 0.4);
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  
+  /* Board copper layers */
+  --copper-top: #ff4757;
+  --copper-bottom: #2e86de;
+  --solder-pad: #ffa502;
+  --silkscreen: #ffffff;
+  
+  /* Font Families */
+  --font-title: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  overflow: hidden; /* App is a full-screen dashboard */
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Typography styles */
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-title);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Button styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.btn-success {
+  background: var(--success);
+  border-color: var(--success);
+  box-shadow: 0 0 10px var(--success-glow);
+}
+
+.btn-success:hover {
+  background: #059669;
+  border-color: #059669;
+  box-shadow: 0 0 15px var(--success-glow);
+}
+
+.btn-danger {
+  background: var(--danger);
+  border-color: var(--danger);
+  box-shadow: 0 0 10px var(--danger-glow);
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  box-shadow: 0 0 15px var(--danger-glow);
+}
+
+/* App Layout Grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr 300px;
+  grid-template-rows: 64px 1fr 180px;
+  height: 100vh;
+  width: 100vw;
+  padding: 12px;
+  gap: 12px;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(29, 78, 216, 0.15) 0, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(76, 29, 149, 0.1) 0, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.05) 0, transparent 50%);
+}
+
+.header-panel {
+  grid-column: 1 / span 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-text {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.left-panel {
+  grid-column: 1;
+  grid-row: 2 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.center-panel {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.right-panel {
+  grid-column: 3;
+  grid-row: 2 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.bottom-panel {
+  grid-column: 2;
+  grid-row: 3;
+  overflow: hidden;
+}
+
+/* Card structures */
+.card-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-body {
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Tabs switcher */
+.tab-bar {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+/* Grid overlay background for schematic and pcb canvases */
+.grid-bg {
+  background-color: #080c14;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.pcb-grid-bg {
+  background-color: #121c16; /* Dark Green soldermask feel */
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+
+.pcb-grid-bg.black { background-color: #0d0d0f; }
+.pcb-grid-bg.blue { background-color: #0c1626; }
+.pcb-grid-bg.red { background-color: #1a0e10; }
+
+/* Input controls */
+.form-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 10px;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  outline: none;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 8px var(--primary-glow);
+}
+
+textarea.form-input {
+  resize: none;
+  height: 90px;
+}
+
+/* Logging Terminal */
+.terminal {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #34d399;
+  background: #05070c;
+  border-radius: 6px;
+  padding: 12px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.terminal-line {
+  margin-bottom: 4px;
+}
+
+.terminal-info { color: #3b82f6; }
+.terminal-warn { color: #f59e0b; }
+.terminal-err { color: #ef4444; }
+.terminal-success { color: #10b981; }
+
+/* Preset List */
+.preset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.preset-card {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.preset-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.preset-card.active {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: var(--primary);
+  box-shadow: inset 0 0 8px rgba(59, 130, 246, 0.2);
+}
+
+.preset-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.preset-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
